@@ -9,6 +9,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final TextEditingController _inputController = TextEditingController();
   final List<Message> _messages = [
     Message(isUser: true, text: "hi"),
     Message(isUser: false, text: "Hello, what('s up?)"),
@@ -27,32 +28,70 @@ class _MyHomePageState extends State<MyHomePage> {
                   final message = _messages[index];
                   return ListTile(
                     title: Align(
-                      alignment: message.isUser ? Alignment.centerRight:Alignment.centerLeft,
+                      alignment: message.isUser
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
                       child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color:message.isUser? Colors.blue:Colors.grey[300],
-                      
-                          borderRadius: message.isUser ? BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
-                            bottomLeft: Radius.circular(20)
-                          ):BorderRadius.only(
-                            topRight: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
-                            bottomLeft: Radius.circular(20)
-                          )
-                        ),
-                        child: Text(message.text,
-                        style: TextStyle(
-                          color: message.isUser? Colors.white: Colors.black
-                        ),
-                        )),
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              color: message.isUser
+                                  ? Colors.blue
+                                  : Colors.grey[300],
+                              borderRadius: message.isUser
+                                  ? BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      bottomRight: Radius.circular(20),
+                                      bottomLeft: Radius.circular(20))
+                                  : BorderRadius.only(
+                                      topRight: Radius.circular(20),
+                                      bottomRight: Radius.circular(20),
+                                      bottomLeft: Radius.circular(20))),
+                          child: Text(
+                            message.text,
+                            style: TextStyle(
+                                color: message.isUser
+                                    ? Colors.white
+                                    : Colors.black),
+                          )),
                     ),
                   );
                 }),
           ),
-          //user input 
+          //user input
+          Padding(
+            padding: const EdgeInsets.only(bottom: 32,top:16,right:16),
+            child: Container(margin: EdgeInsets.only(left: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(32),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(.1),
+                    spreadRadius: 5,
+                    offset: Offset(0,3)
+                  )
+                ]
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _inputController,
+                      decoration: InputDecoration(
+                        hintText: "Write your message",
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 20)
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  IconButton(onPressed: () {}, icon: Icon(Icons.send))
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
