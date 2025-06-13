@@ -19,9 +19,12 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
+        
         centerTitle: false,
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        elevation: 1,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -42,8 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Text(
                   "Gemini Gpt",
-                  style: TextStyle(
-                      color: Colors.blue, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.titleLarge,
                 )
               ],
             ),
@@ -70,8 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
                               color: message.isUser
-                                  ? Colors.blue
-                                  : Colors.grey[300],
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Theme.of(context).colorScheme.secondary,
                               borderRadius: message.isUser
                                   ? BorderRadius.only(
                                       topLeft: Radius.circular(20),
