@@ -19,6 +19,41 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        backgroundColor: Colors.white,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Container(
+                    //padding: EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.grey.shade300)),
+                    child: Image.network(
+                      "https://static.vecteezy.com/system/resources/thumbnails/027/730/658/small/technology-robot-generative-ai-free-png.png",
+                      width: 40,
+                      height: 40,
+                    )),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  "Gemini Gpt",
+                  style: TextStyle(
+                      color: Colors.blue, fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+            IconButton(
+                icon: Icon(Icons.light_mode),
+                onPressed: () {},
+                color: Colors.blue)
+          ],
+        ),
+      ),
       body: Column(
         children: [
           Expanded(
@@ -59,35 +94,38 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           //user input
           Padding(
-            padding: const EdgeInsets.only(bottom: 32,top:16,right:16),
-            child: Container(margin: EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(bottom: 32, top: 16, right: 16),
+            child: Container(
+              margin: EdgeInsets.only(left: 10),
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(32),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(.1),
-                    spreadRadius: 5,
-                    offset: Offset(0,3)
-                  )
-                ]
-              ),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(32),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(.1),
+                        spreadRadius: 5,
+                        offset: Offset(0, 3))
+                  ]),
               child: Row(
                 children: [
                   Expanded(
                     child: TextField(
                       controller: _inputController,
                       decoration: InputDecoration(
-                        hintText: "Write your message",
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 20)
-                      ),
+                          hintText: "Write your message",
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(horizontal: 20)),
                     ),
                   ),
                   SizedBox(
                     width: 8,
                   ),
-                  IconButton(onPressed: () {}, icon: Icon(Icons.send))
+                  IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.send,
+                        color: Colors.blueGrey,
+                      ))
                 ],
               ),
             ),
