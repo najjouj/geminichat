@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geminichat/message.dart';
 import 'package:geminichat/theme_notifier.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 
 class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key});
@@ -18,8 +20,32 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     Message(isUser: true, text: 'Great and you?'),
     Message(isUser: false, text: "I'm excellent")
   ];
+  callGeminiModel() async {
+    try {
+      if (_inputController.text.isNotEmpty) {
+        _messages.add(Message(isUser: true, text: _inputController.text));
+      }
+      final model = GenerativeModel(
+          apiKey: dotenv.env["GOOGLE_API_KEY"]!, model: "gemini-1.5-flash");
+
+      final prompt = _inputController.text.trim();
+      print(prompt);
+      final content = [Content.text(prompt)];
+
+      final response = await model.generateContent(content);
+
+      setState(() {
+        _messages.add(Message(isUser: false, text: response.text!));
+      });
+      _inputController.clear();
+    } catch (e) {
+      print("gemini generative model error:$e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final currentTheme = ref.read(themeProvider);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -51,7 +77,9 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
               ],
             ),
             IconButton(
-                icon: const Icon(Icons.light_mode),
+                icon: (currentTheme == ThemeMode.light)
+                    ? const Icon(Icons.dark_mode)
+                    : const Icon(Icons.light_mode),
                 onPressed: () {
                   ref.read(themeProvider.notifier).toggleTheme();
                 },
@@ -118,7 +146,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                       controller: _inputController,
                       decoration: InputDecoration(
                           hintText: "Write your message",
-                          hintStyle: TextStyle(color:Colors.grey ),
+                          hintStyle: TextStyle(color: Colors.grey),
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(horizontal: 20)),
                     ),
@@ -127,7 +155,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
                     width: 8,
                   ),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () => callGeminiModel(),
                       icon: Icon(
                         Icons.send,
                         color: Colors.blueGrey,
