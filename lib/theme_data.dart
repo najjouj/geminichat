@@ -25,6 +25,9 @@ ThemeData darktMode=ThemeData(
   textTheme: TextTheme(
     titleLarge: TextStyle(
       color:Color(0xffffffff)
+    ),
+    titleSmall: TextStyle(
+      color: Color(0xff000000),
     )
   )
 );

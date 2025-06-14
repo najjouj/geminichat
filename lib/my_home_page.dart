@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geminichat/message.dart';
+import 'package:geminichat/theme_notifier.dart';
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  ConsumerState<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends ConsumerState<MyHomePage> {
   final TextEditingController _inputController = TextEditingController();
   final List<Message> _messages = [
     Message(isUser: true, text: "hi"),
@@ -21,7 +23,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        
         centerTitle: false,
         backgroundColor: Theme.of(context).colorScheme.background,
         elevation: 1,
@@ -50,8 +51,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             IconButton(
-                icon: Icon(Icons.light_mode),
-                onPressed: () {},
+                icon: const Icon(Icons.light_mode),
+                onPressed: () {
+                  ref.read(themeProvider.notifier).toggleTheme();
+                },
                 color: Colors.blue)
           ],
         ),
@@ -115,6 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       controller: _inputController,
                       decoration: InputDecoration(
                           hintText: "Write your message",
+                          hintStyle: TextStyle(color:Colors.grey ),
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(horizontal: 20)),
                     ),
